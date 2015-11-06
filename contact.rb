@@ -45,8 +45,10 @@ class Contact
 		@@contacts = []
 	end
 
-	def self.delete_contact
-		@@contacts.delete_if { |contact| contact.id == user_specified_id}
+	def delete
+		@@contacts.delete_if do |contact| 
+			contact == self 
+		end
 	end
 
 	def self.search_by_attribute(field, value)
