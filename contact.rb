@@ -15,9 +15,9 @@ class Contact
 	end
 
 	def self.create(first_name, last_name, options = {})
-		new_contact = Contact.new(first_name, last_name, options)
-		
+		new_contact = Contact.new(first_name, last_name, options)	
 		@@contacts << new_contact
+		return new_contact
 	end
 
 	def self.find(id)
@@ -29,7 +29,7 @@ class Contact
 	end
 
 	def update(field, new_value)
-		# find 
+		self.send("#{field}=", new_value) 
 	end
 
 
@@ -40,13 +40,49 @@ class Contact
 	def full_name
 		"#{first_name} #{last_name}"
 	end
-# 	def first_name
-# 		@first_name
-# end
 
-# 	def first_name=(new_first_name)
-# 		@first_name = new_first_name
-# 	end
+	def self.delete_all
+		@@contacts = []
+	end
+
+	def self.delete_contact
+		@@contacts.delete_if { |contact| contact.id == user_specified_id}
+	end
+
+	def self.search_by_attribute(field, value)
+		contacts =  []
+		@@contacts.each do |contact|
+			if field == "first_name"
+				if value == contact.first_name
+					contacts << contact
+				end
+			elsif field == "last_name"
+				if value == contact.last_name
+					contacts << contact
+				end
+			elsif field == "email"
+				if value == contact.email
+					contacts << contact
+				end
+			elsif field == "notes"
+				if value == contact.notes
+					contacts << contact
+
+				end
+			end
+
+		end
+
+		return contacts
+
+
+
+
+
+			
+
+	end
+
 
 
 end
